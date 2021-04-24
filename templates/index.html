@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People counter</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Passion+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Passion+One&family=Paytone+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Asap:wght@600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Asap', sans-serif;
+        }
+
+        body {
+            background: rgb(236, 235, 249);
+            background: linear-gradient(90deg, rgba(236, 235, 249, 1) 0%, rgba(206, 233, 238, 1) 100%);
+        }
+
+        header {
+            background: rgb(2, 0, 36);
+            background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 49%, rgba(0, 212, 255, 1) 100%);
+            color: white;
+            padding: 10px;
+        }
+
+        header>h1 {
+            text-align: center;
+        }
+
+        #content {
+            max-width: 900px;
+            margin: 10px auto;
+            /* display: flex;
+            justify-content: center; */
+            text-align: center;
+            padding: 15px;
+            border-radius: 15px;
+            background: rgb(243, 243, 249);
+            background: linear-gradient(90deg, rgba(243, 243, 249, 1) 0%, rgba(235, 245, 247, 1) 100%);
+            box-shadow: 1px 1px 1px 1px #ccc;
+        }
+
+        button {
+            font-size: 15px;
+            padding: 10px;
+        }
+
+        #content>div {
+            margin-left: 10px;
+        }
+
+        #content h2 {
+            font-size: 27px;
+        }
+
+        #content p {
+            font-size: 22px;
+        }
+
+        #content h2,
+        p {
+            margin-bottom: 7px;
+        }
+
+        .d-none {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>People tracker</h1>
+    </header>
+    <main>
+        <div id="content">
+            <div id="cv-video">
+                <img src="{{ url_for('video_feed') }}">
+            </div>
+            <div>
+                <h2 id="global-message">Aplikacija je prepoznala 0 lica</h2>
+                <p id="faces-control-msg" class="d-none">Izaberite lice za praćenje</p>
+                <div id="faces-control">
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.0/socket.io.js"
+        integrity="sha512-+l9L4lMTFNy3dEglQpprf7jQBhQsQ3/WvOnjaN/+/L4i0jOstgScV0q2TjfvRF4V+ZePMDuZYIQtg5T4MKr+MQ=="
+        crossorigin="anonymous"></script>
+    <script>
+        const socket = io.connect('http://localhost:9000', { transports: ['websocket'] });
+        socket.on('connect', () => {
+            console.log('Konekcija uspesna!');
+        });
+
+        socket.on('counter', (data) => {
+            document.getElementById("faces-control").innerHTML = ``;
+            const parsedJson = JSON.parse(data);
+
+            console.log(parsedJson.faces);
+
+            document.getElementById("global-message").innerHTML = `Aplikacija je prepoznala ${parsedJson.faces} lica`;
+
+            if (parsedJson.faces > 0) {
+
+                if (parsedJson.faces == 1) {
+                    document.getElementById("global-message").innerHTML = `Aplikacija je prepoznala ${parsedJson.faces} lice`;
+                }
+
+                document.getElementById("faces-control-msg").classList.remove("d-none");
+                for (let i = 0; i < parsedJson.faces; i++) {
+                    document.getElementById("faces-control").innerHTML += `
+                        <button class="btn-control" id="${i}">Lice ${i + 1}</button>
+                    `;
+                }
+
+                let buttons = document.querySelectorAll(".btn-control");
+                for (let btn of buttons) {
+                    btn.addEventListener('click', (e) => {
+                        console.log('BTN ID: ' + e.target.id);
+
+                        socket.emit('faceselect', JSON.stringify({
+                            selectedFace: e.target.id
+                        }));
+
+                        document.getElementById("cv-video").innerHTML = `
+                            <img src="/video_feed?id=${e.target.id}" />
+                        `
+                    })
+                }
+
+            } else {
+                document.getElementById("faces-control-msg").classList.add("d-none");
+                document.getElementById("faces-control").innerHTML = ``;
+            }
+        });
+
+    </script>
+</body>
+
+</html>

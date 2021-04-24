@@ -1,0 +1,14 @@
+Installacija erlang (neophodan za rabbitmq): https://erlang.org/download/otp_win64_23.3.exe
+Instalacija rabbitmq: https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.14/rabbitmq-server-3.8.14.exe
+
+1) python -m venv venv
+2) cd venv
+3) cd Scripts
+4) .\activate.bat
+5) cd ../..
+6) pip install -r requirements.txt
+7) python app.py
+8) cd node
+9) npm install
+10) node app.js
+

@@ -30,7 +30,8 @@ faceId = 55
 
 def gen(id):
     """Video streaming generator function."""
-    cap = cv2.VideoCapture('f2.mp4')
+    #cap = cv2.VideoCapture('f2.mp4')
+    cap = cv2.VideoCapture(0)
 
     # Read until video is completed
     while(cap.isOpened()):

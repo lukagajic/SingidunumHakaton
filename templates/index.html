@@ -17,38 +17,68 @@
             font-family: 'Asap', sans-serif;
         }
 
-        body {
-            background: rgb(236, 235, 249);
-            background: linear-gradient(90deg, rgba(236, 235, 249, 1) 0%, rgba(206, 233, 238, 1) 100%);
-        }
-
         header {
-            background: rgb(2, 0, 36);
-            background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 49%, rgba(0, 212, 255, 1) 100%);
-            color: white;
-            padding: 10px;
+            height: 10vh;
+            background-color: #3e4444;
+            color: #e6e2d3;
         }
 
         header>h1 {
+            padding-top: 15px;
+            text-align: center;
+        }
+        main {
+            height: 80%;
+            background-color: lightgray;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        footer{
+            height: 5vh;
+            background-color: #3e4444;
+            color: #e6e2d3;
+            display: flex;
+            flex-direction: column;
             text-align: center;
         }
 
+        footer h4{
+            padding-top: 10px;
+        }
+
         #content {
+            height: 75vh;
             max-width: 900px;
             margin: 10px auto;
+            display: flex;
+            flex-direction: row;
             /* display: flex;
             justify-content: center; */
             text-align: center;
             padding: 15px;
             border-radius: 15px;
-            background: rgb(243, 243, 249);
-            background: linear-gradient(90deg, rgba(243, 243, 249, 1) 0%, rgba(235, 245, 247, 1) 100%);
-            box-shadow: 1px 1px 1px 1px #ccc;
         }
 
+        #cv-video{
+            width: 70vw;
+        }
+        #cv-video img{
+            border-radius: 10px;
+        }
+
+        .actions {
+            width: 30vw;
+        }
+
+
         button {
-            font-size: 15px;
-            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+            height: 30px;
+            width: 70%;
+            background-color: #3e4444;
+            color: #e6e2d3;
         }
 
         #content>div {
@@ -83,21 +113,28 @@
             <div id="cv-video">
                 <img src="{{ url_for('video_feed') }}">
             </div>
-            <div>
-                <h2 id="global-message">Aplikacija je prepoznala 0 lica</h2>
-                <p id="faces-control-msg" class="d-none">Izaberite lice za praćenje</p>
-                <div id="faces-control">
+            <div class="actions">
+                
+                <div>
+                    <h2 id="global-message">Aplikacija je prepoznala 0 lica</h2>
+                    <p id="faces-control-msg" class="d-none">Izaberite lice za praćenje</p>
+                    <div id="faces-control">
 
+                    </div>
                 </div>
-            </div>
 
-            <div class="d-none" id="face-tracking-options">
-                <button id="btn-reset-tracking">Resetujte praćenje osobe</button>
+                <div class="d-none" id="face-tracking-options">
+                    <button id="btn-reset-tracking">Resetujte praćenje osobe</button>
+                </div>
             </div>
 
         </div>
     </main>
-
+    <footer>
+        <div>
+            <h4>Luka Gajic - Nikola Jovic - Dusan Cvetnic - Udarna Četa Voje Tankosića</h4>  
+        </div>
+    </footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.0/socket.io.js"
         integrity="sha512-+l9L4lMTFNy3dEglQpprf7jQBhQsQ3/WvOnjaN/+/L4i0jOstgScV0q2TjfvRF4V+ZePMDuZYIQtg5T4MKr+MQ=="
         crossorigin="anonymous"></script>

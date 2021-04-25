@@ -91,6 +91,10 @@
                 </div>
             </div>
 
+            <div class="d-none" id="face-tracking-options">
+                <button id="btn-reset-tracking">Resetujte praćenje osobe</button>
+            </div>
+
         </div>
     </main>
 
@@ -135,7 +139,23 @@
 
                         document.getElementById("cv-video").innerHTML = `
                             <img src="/video_feed?id=${e.target.id}" />
+                        `;
+
+
+                        document.getElementById("face-tracking-options").classList.remove("d-none");
+
+                        document.getElementById("btn-reset-tracking").addEventListener('click', (e) => {
+                            document.getElementById("face-tracking-options").classList.add("d-none");
+                            document.getElementById("faces-control").classList.remove("d-none");
+                            document.getElementById("faces-control-msg").classList.remove("d-none");
+
+                            document.getElementById("cv-video").innerHTML = `
+                            <img src="/video_feed" />
                         `
+                        });
+
+                        document.getElementById("faces-control").classList.add("d-none");
+                        document.getElementById("faces-control-msg").classList.add("d-none");
                     })
                 }
 
